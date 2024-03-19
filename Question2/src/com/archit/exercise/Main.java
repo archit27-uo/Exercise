@@ -8,18 +8,18 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String filename = "E:\\project Spring\\playerScore\\src\\com\\archit\\exercise\\Scores.csv"; // Assuming the file name is "player_scores.txt"
+        String filename = "E:\\project Spring\\Exercise1\\Question2\\src\\com\\archit\\exercise\\Scores.csv"; // Assuming the file name is "player_scores.txt"
         Map<String, Integer> highestScores = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] entries = line.split(",");
-                String playerName = entries[0];
-                for (int i = 1; i < entries.length; i++) {
-                    String[] matchDetails = entries[i].split("_");
-                    if (matchDetails.length == 3) {
-                        int score = Integer.parseInt(matchDetails[1]);
+                String[] playerData = line.split(",");
+                String playerName = playerData[0];
+                for (int i = 1; i < playerData.length; i++) {
+                    String[] data = playerData[i].split("_");
+                    if (data.length == 3) {
+                        int score = Integer.parseInt(data[1]);
                         if (highestScores.containsKey(playerName)) {
                             score = Math.max(score, highestScores.get(playerName));
                         }
@@ -28,7 +28,7 @@ public class Main {
                 }
             }
 
-            // Print highest scores for each player
+           
             for (Map.Entry<String, Integer> entry : highestScores.entrySet()) {
                 System.out.println("Player: " + entry.getKey() + ", Highest Score: " + entry.getValue());
             }

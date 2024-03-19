@@ -12,57 +12,55 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String csvFile = "E:\\project Spring\\Employee\\out\\production\\Employee\\com\\archit\\exercise\\Employees.csv";
+        String csvFile = "E:\\project Spring\\Exercise1\\Question1\\src\\com\\archit\\exercise\\Employees.csv";
         String line;
         String csvSplitBy = ",";
 
-        // Map to store employees grouped by department
+
         Map<String, List<Employee>> departmentMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            // Skip header line
+
             br.readLine();
 
-            // Read data from CSV file
             while ((line = br.readLine()) != null) {
                 String[] employeeData = line.split(csvSplitBy);
 
                 if (employeeData.length < 5) {
-                    System.err.println("Invalid data format for employee: " + line);
-                    continue; // Skip this line and proceed to the next one
+                    System.err.println("Invalid data format");
+                    continue;
                 }
 
                 String firstName = employeeData[0];
                 String lastName = employeeData[1];
                 String department = employeeData[2];
                 String email = employeeData[3];
-                double salary = 0.0; // Default value for salary if it's empty
+                double salary = 0.0;
                 String salaryString = employeeData[4].trim();
                 if (!salaryString.isEmpty()) {
-                    if (salaryString.matches("[0-9]+(\\.[0-9]+)?")) { // Check if salaryString contains only digits or decimal point
+                    if (salaryString.matches("[0-9]+(\\.[0-9]+)?")) {
                         salary = Double.parseDouble(salaryString);
                     } else {
-                        System.err.println("Invalid salary format for employee: " + line);
+                        System.err.println("Invalid salary format");
                     }
                 }
 
-                // Create Employee object
+
                 Employee employee = new Employee(firstName, lastName, department, email, salary);
 
-                // Add employee to department map
                 departmentMap.computeIfAbsent(department, k -> new ArrayList<>()).add(employee);
             }
 
-            // Sort employees within each department by salary
+
             departmentMap.forEach((department, employees) -> {
                 Collections.sort(employees, Comparator.comparingDouble(Employee::getSalary));
             });
 
-            // Sort departments lexicographically
+
             List<String> sortedDepartments = new ArrayList<>(departmentMap.keySet());
             Collections.sort(sortedDepartments);
 
-            // Print sorted employees
+
             for (String department : sortedDepartments) {
                 System.out.println("Department: " + department);
                 for (Employee employee : departmentMap.get(department)) {
@@ -98,7 +96,7 @@ class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "Employee Detail{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", department='" + department + '\'' +
